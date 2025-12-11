@@ -78,6 +78,12 @@ def contactPage():
 
 	return render_template("contact.html")
 
+@app.route("/rating")
+def ratingPage():
+	global loggedIn
+	print("Rating page")
+
+	return render_template("rating.html")
 
 @app.route("/login")
 def loginPage():
