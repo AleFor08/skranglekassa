@@ -39,7 +39,7 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        const typingSpeed = 15;
+        const typingSpeed = 5;
         let charIndex = 0;
         let output = "";
 
@@ -76,7 +76,6 @@
             // Cheks if enter key is pressed
             if (event.key === 'Enter') {
                 sendMessage(); 
-                clearField();
             }
 
         });
