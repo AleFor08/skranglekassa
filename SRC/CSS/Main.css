@@ -265,7 +265,6 @@ input[type=submit]:hover {
 #loader {
     position: absolute;
     top: 15%;
-    /* left: 222.5px; */
     left: 90%;
     border: 5px solid #f3f3f300;
     border-radius: 50%;
@@ -295,7 +294,7 @@ input[type=submit]:hover {
     width: 150px;
     height: auto;
     position: absolute;
-    left: 500px;
+    left: 525px;
     top: 150px;
 }
 
