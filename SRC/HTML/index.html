@@ -66,7 +66,7 @@
                 if (charIndex > 1) {
                     popMany(chatLog, 5); // Remove the last output to update it
                 }
-                chatLog.push("↓Skrotnissen↓:", "<br>", output, "<br>", "<br>"); // Add updated output to chatLog
+                chatLog.push("Skrotnissen:", "<br>", output, "<br>", "<br>"); // Add updated output to chatLog
                 return typeWriter();
             }
         }
@@ -86,11 +86,14 @@
         document.getElementById("robotIMG").style.opacity="0%"
         //Sends API request to backend, and recives JSON file
         async function sendMessage() {
+            const input = document.getElementById("userInput").value;
+            chatLog.push("Bruker:", "<br>", input, "<br>", "<br>");
+            document.getElementById("output").innerHTML = chatLog.join("");
+            console.log(chatLog);
             document.getElementById("sendBtn").style.opacity="0%";
             document.getElementById("loader").style.opacity="100%";
-            const input = document.getElementById("userInput").value;
+            document.getElementById("robotIMG").style.opacity="100%"
             clearField();
-            chatLog.push("↓Bruker↓:", "<br>", input, "<br>", "<br>");
             const res = await fetch("http://localhost:5000/chat", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
