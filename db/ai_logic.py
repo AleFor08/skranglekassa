@@ -16,8 +16,10 @@ client = ChatCompletionsClient(
 # Initialize message history with system instructions
 messages=[
     SystemMessage("You are a helpful assistant that is called Skrotnissen."),
-    SystemMessage("You answer in a friendly, concise manner and as short as possible without lossing any detail or helpfullness."),
-    SystemMessage("You help users with their finding products in our store.")
+    SystemMessage("You answer in a friendly, concise manner and as short as possible without losing any detail or helpfullness."),
+    SystemMessage("You help users with finding products in our store."),
+    SystemMessage("Do not use asteriks (*) in your answers. Change them out with <br><b> and </b><br> tags for bolding text."),
+    SystemMessage("If you're making any kind of list, make sure to use <br> tags to seperate the items in the list."),
 ]
 
 def get_ai_response(userInput: str, database: dict) -> str:

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/Main.css') }}">
+    <title>Skranglekassa.no/Tilbakemelding</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='IMG/favicon.ico') }}">
+</head>
+
+ <!--Header-->
+<header>
+    <h2>Skranglekassa.no</h2>
+</header>
+
+ <!--Navigation Buttons-->
+<nav>
+    <a href="{{ url_for('home')}}" class="navBtn">&lt;- Tilbake</a>  
+</nav>
+
+ <!--Contact Box-->
+<body>
+    <h1>Tilbakemelding:</h1>
+    <div class="inputpage">
+        <form action="ratingPage" method="POST">
+            <label for="fname">Vurdering <div class="asterisk">*</div></label>
+            <br>
+            <br>
+            <input type="radio" id="r1" name="ratingRadio" value="1Stars">
+            <label for="r1">1 Stjerne</label>
+            <br>
+            <br>
+            <input type="radio" id="r2" name="ratingRadio" value="2Stars">
+            <label for="r2">2 Stjerner</label>
+            <br>
+            <br>
+            <input type="radio" id="r3" name="ratingRadio" value="3Stars">
+            <label for="r3">3 Stjerner</label>
+            <br>
+            <br>
+            <input type="radio" id="r4" name="ratingRadio" value="4Stars">
+            <label for="r4">4 Stjerner</label>
+            <br>
+            <br>
+            <input type="radio" id="r5" name="ratingRadio" value="5Stars">
+            <label for="r5">5 Stjerner</label>
+            <br>
+            <br>
+            <h4 id="required"><div class="asterisk">*</div> Påkrevd</h4>
+            <input type="submit" value="Send Inn">
+        </form>
+    </div>
+    <br>
+</body>
+
+ <!--Footer-->
+<footer>
+    <h2>Skranglekassa.no</h2>
+</footer>
+</html>

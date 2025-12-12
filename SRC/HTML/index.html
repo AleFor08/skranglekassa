@@ -18,7 +18,6 @@
     <p id="output"></p> 
     <br>
     <br>
-    <div id="loader"></div>
     <!--Buttons + Text area-->
     <div id="inputForm">
         <button id="closeBtn" class="AIBtn" onclick="closeSidePanel()">
@@ -26,6 +25,7 @@
         </button>    
         <input id="userInput" type="text" placeholder="Skriv her...">
         <button id="sendBtn" class="AIBtn" onclick="sendMessage()">Send</button>
+        <div id="loader"></div>
     </div>
 
     <!--Opening and Closing Functions-->
@@ -33,11 +33,49 @@
         chatLog = [];
         const input = document.getElementById('userInput');
 
-        input.addEventListener('keydown', function(event) {
-            // Check if the key pressed is Enter
-            if (event.key === 'Enter') {
-                sendMessage(); // Call your function
+        let textToType = "";
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        const typingSpeed = 5;
+        let charIndex = 0;
+        let output = "";
+
+        async function clearField() {
+            input.value = '';
+        }
+
+        function popMany(arr, n) {
+            for (let i = 0; i < n; i++) {
+                arr.pop();
+            }
+            return arr;
+        }
+
+        async function typeWriter() {
+            // Check if there are more characters to append
+            if (charIndex-1 < textToType.length) {
+                await delay(typingSpeed); // Wait for the specified typing speed
+                // Append the next character to the array
+                output += textToType.charAt(charIndex);
+                charIndex++; // Move to the next character
                 clearField();
+                document.getElementById("output").innerHTML = chatLog.join("");
+                if (charIndex > 1) {
+                    popMany(chatLog, 5); // Remove the last output to update it
+                }
+                chatLog.push("Skrotnissen:", "<br>", output, "<br>", "<br>"); // Add updated output to chatLog
+                return typeWriter();
+            }
+        }
+
+
+        input.addEventListener('keydown', function(event) {
+            // Cheks if enter key is pressed
+            if (event.key === 'Enter') {
+                sendMessage(); 
             }
 
         });
@@ -48,19 +86,30 @@
         document.getElementById("robotIMG").style.opacity="0%"
         //Sends API request to backend, and recives JSON file
         async function sendMessage() {
+            const input = document.getElementById("userInput").value;
+            chatLog.push("Bruker:", "<br>", input, "<br>", "<br>");
+            document.getElementById("output").innerHTML = chatLog.join("");
+            console.log(chatLog);
             document.getElementById("sendBtn").style.opacity="0%";
             document.getElementById("loader").style.opacity="100%";
-            const input = document.getElementById("userInput").value;
+            document.getElementById("robotIMG").style.opacity="100%"
+            clearField();
             const res = await fetch("http://localhost:5000/chat", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ userInput: input })
             });
-
-
+                        
             const data = await res.json();
-            chatLog.push("↓Bruker↓:", "<br>", input, "<br>", "<br>", "↓Skrotnissen↓:", "<br>", data.aiOutput, "<br>", "<br>");
-            clearField();
+
+            // Resets typing animation variables
+            output = "";
+            charIndex = 0;
+            textToType = data.aiOutput;
+            
+
+            typeWriter(); // Starts typing animation
+
             document.getElementById("output").innerHTML = chatLog.join("");
             document.getElementById("sendBtn").style.opacity="100%";
             document.getElementById("loader").style.opacity="0%";
@@ -99,6 +148,7 @@
     <a href="{{ url_for('loginPage')}}" class="navBtn">Logg Inn <img class="homeIMG" src="{{ url_for('static', filename='IMG/login-nobg.png') }}" alt="Logg inn"></img></a></a>
     <a href="{{ url_for('signupPage')}}" class="navBtn">Registrer Bruker <img class="homeIMG" src="{{ url_for('static', filename='IMG/signup-nobg.png') }}" alt="Registrer bruker"></img></a></a>
     <a href="{{ url_for('contactPage')}}" class="navBtn">Kontakt <img class="homeIMG" src="{{ url_for('static', filename='IMG/contact-nobg.png') }}" alt="Kotnakt"></img></a></a>
+    <a href="{{ url_for('ratingPage')}}" class="navBtn">Tilbakemelding <img class="homeIMG" src="{{ url_for('static', filename='IMG/contact-nobg.png') }}" alt="Tilbakemelding"></img></a></a>
 </nav>
 
  <!--Home Screen Text-->
